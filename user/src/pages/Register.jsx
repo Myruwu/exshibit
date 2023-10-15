@@ -17,7 +17,9 @@ const Register = () => {
   const [availableCourses, setAvailableCourses] = useState([]);
 
   const validationSchema = Yup.object({
-    studentNumber: Yup.number().required('Student number is required'),
+    studentNumber: Yup.string()
+    .matches(/^\d{2}-\d{4}-\d{6}$/, 'Invalid student number format (e.g., 00-0000-000000)')
+    .required('Student number is required'),
     name: Yup.string()
       .matches(/^[a-zA-Z\s]*$/, 'Name should not contain numbers')
       .required('Name is required'),
@@ -96,20 +98,20 @@ const Register = () => {
           {/* Student Number */}
           <div className='form-group'>
             <input
-              type='number'
+              type='text'
               className='form-control'
               id='studentNumber'
               name='studentNumber'
               value={formik.values.studentNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder='Enter your student number'
+              placeholder='Enter your student number (e.g., 00-0000-000000)'
             />
             {formik.touched.studentNumber && formik.errors.studentNumber ? (
               <div className='error'>{formik.errors.studentNumber}</div>
             ) : null}
           </div>
-
+          
           <div className='form-group'>
             <select
               value={selectDepartment}
